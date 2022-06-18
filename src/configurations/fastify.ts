@@ -1,16 +1,13 @@
-import fastify from "fastify";
 import swagger from "@fastify/swagger";
-import { request } from "http";
-import {
-  GetSongsQueryString,
-  GetSongsQueryStringSchema,
-} from "schemas/get-songs";
+import fastify from "fastify";
+import { songRouter } from "routers/song.router";
 
 const app = fastify({
   logger: {
     level: "debug",
   },
 });
+
 app.register(swagger, {
   routePrefix: "docs",
   openapi: {
@@ -27,11 +24,7 @@ app.get("/", (_, resp) => {
   resp.send({ message: "service is up!" });
 });
 
-app.get<{ Querystring: GetSongsQueryString }>("/songs", (req, resp) => {
-  const { query } = req;
-  app.log.debug({ query });
-  resp.send(query);
-});
+app.register(songRouter, { prefix: '/api/songs' });
 
 app.ready(() => {
   app.swagger();
