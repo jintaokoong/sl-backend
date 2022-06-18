@@ -5,6 +5,12 @@ import {
   GetSongsQueryStringSchema,
 } from 'schemas/get-songs';
 import { InsertSong, InsertSongSchema } from 'schemas/insert-song';
+import {
+  UpdateSong,
+  UpdateSongQueryParam,
+  UpdateSongQueryParamSchema,
+  UpdateSongSchema,
+} from 'schemas/update-song';
 
 export const songRouter = (
   app: FastifyInstance,
@@ -50,6 +56,34 @@ export const songRouter = (
           app.log.error(error);
           resp.send({ message: 'failed to create song' });
         });
+    },
+  );
+
+  app.put<{
+    Body: UpdateSong;
+    Params: UpdateSongQueryParam;
+  }>(
+    '/:id',
+    { schema: { body: UpdateSongSchema, params: UpdateSongQueryParamSchema } },
+    (req, resp) => {
+      const { params, body } = req;
+      return SongModel.findOneAndUpdate(
+        { _id: params.id },
+        {
+          name: body.name,
+          genres: body.genres ?? [],
+          artist: body.artist,
+        },
+        {
+          new: true,
+        },
+      ).then((doc) => {
+        if (doc == null) {
+          return resp.code(404).send({ message: 'song not found' });
+        } else {
+          return resp.send(doc.toObject());
+        }
+      });
     },
   );
 
