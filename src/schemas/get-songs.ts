@@ -1,10 +1,10 @@
-import { Static, Type } from "@sinclair/typebox";
+import { Static, Type } from '@sinclair/typebox';
 
 const OptionalNumber = () => Type.Optional(Type.Number());
 
 const GetSongsQueryStringSchema = Type.Object({
-  page: OptionalNumber(),
-  pageSize: OptionalNumber(),
+  page: Type.Optional(Type.Number()),
+  pageSize: Type.Optional(Type.Number()),
   query: Type.Optional(Type.String()),
 });
 
