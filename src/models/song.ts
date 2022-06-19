@@ -1,5 +1,6 @@
-import { getModelForClass, prop } from "@typegoose/typegoose";
+import { getModelForClass, prop, index } from '@typegoose/typegoose'
 
+@index({name: 'text', artist: 'text'})
 export class Song {
   @prop({ required: true })
   name: string;

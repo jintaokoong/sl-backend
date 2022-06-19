@@ -22,10 +22,12 @@ export const songRouter = (
     '/',
     { schema: { querystring: GetSongsQueryStringSchema } },
     (req, resp) => {
-      const { query } = req;
-      app.log.debug({ query });
-      SongModel.find({})
-        .exec()
+      const { query:  { page = 1, pageSize = 10, search } } = req;
+      app.log.debug(req.query);
+      SongModel.find(search ? {$text: { $search: search } } : {})
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .exec()
         .then((docs) => {
           resp.send(docs.map((doc) => doc.toObject()));
         })
