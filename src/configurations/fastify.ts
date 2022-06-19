@@ -1,5 +1,6 @@
 import fastify from 'fastify';
 import { songRouter } from 'routers/song.router';
+import fastifyCors from '@fastify/cors'
 
 const app = fastify({
   logger: {
@@ -10,6 +11,10 @@ const app = fastify({
       keywords: ['kind', 'modifier'],
     },
   },
+});
+
+app.register(fastifyCors, {
+  origin: '*',
 });
 
 app.get('/', (_, resp) => {

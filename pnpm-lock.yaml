@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fastify/cors': ^8.0.0
   '@fastify/swagger': ^7.3.0
   '@firebase/app-types': ^0.7.0
   '@sinclair/typebox': ^0.23.5
@@ -21,6 +22,7 @@ specifiers:
   typescript: ^4.7.3
 
 dependencies:
+  '@fastify/cors': 8.0.0
   '@fastify/swagger': 7.3.0
   '@firebase/app-types': 0.7.0
   '@sinclair/typebox': 0.23.5
@@ -81,6 +83,13 @@ packages:
     engines: {node: '>=10.17.0'}
     dependencies:
       text-decoding: 1.0.0
+    dev: false
+
+  /@fastify/cors/8.0.0:
+    resolution: {integrity: sha512-mB2GsA7aVwq7XG6B2OM1FMpcaiXY69ZbM1h/xDJxLEVu5ITGcs5XYrBIYTMNU2dQtzO6mzXhGd2dEKaCnB7UgQ==}
+    dependencies:
+      fastify-plugin: 3.0.1
+      vary: 1.1.2
     dev: false
 
   /@fastify/error/3.0.0:
@@ -2842,6 +2851,11 @@ packages:
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
     dev: true
+
+  /vary/1.1.2:
+    resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
+    engines: {node: '>= 0.8'}
+    dev: false
 
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
