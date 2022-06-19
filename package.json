@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist/",
+    "start": "NODE_PATH=./dist node dist/index.js",
     "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
     "copy": "copyfiles .env pnpm-lock.yaml tsconfig.json package.json dist/",
-    "build": "npm run clean && tsc && npm run copy"
+    "build": "npm run clean && tsc"
   },
   "keywords": [],
   "author": "",
