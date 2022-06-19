@@ -11,6 +11,7 @@ const connectDatabase = () => mongoose.connect(getOr('MONGO_URL', ''), {
 
 const startFastify = () => app
 .listen({
+  host: (process.env.HOST || '0.0.0.0'),
   port: (process.env.PORT || 41867) as number,
 });
 
