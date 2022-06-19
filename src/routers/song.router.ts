@@ -24,18 +24,30 @@ export const songRouter = (
     (req, resp) => {
       const { query:  { page = 1, pageSize = 10, search } } = req;
       app.log.debug(req.query);
-      SongModel.find(search ? {$text: { $search: search } } : {})
+      const filter = search ? {$text: { $search: search } } : {};
+      return SongModel.find(filter)
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .exec()
         .then((docs) => {
-          resp.send(docs.map((doc) => doc.toObject()));
+          return SongModel.count(filter).exec()
+            .then((count) => {
+            const returnObject = {
+              page,
+              pageSize,
+              data: docs.map((doc) => doc.toObject()),
+              total: count,
+            };
+            resp.send(returnObject);
+            return resp;
+          });
         })
         .catch((error) => {
           app.log.error(error);
           resp.code(500).send({
             message: 'internal server error',
           });
+          return resp;
         });
     },
   );
