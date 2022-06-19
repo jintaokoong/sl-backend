@@ -11,6 +11,7 @@ import {
   UpdateSongQueryParamSchema,
   UpdateSongSchema,
 } from 'schemas/update-song';
+import auth from '../utils/auth'
 
 export const songRouter = (
   app: FastifyInstance,
@@ -36,6 +37,34 @@ export const songRouter = (
         });
     },
   );
+
+  app.register(songsProtected);
+
+  done();
+};
+
+const songsProtected = (app: FastifyInstance, _: unknown, done: () => void) => {
+  app.addHook('onRequest', (req, resp, done) => {
+    app.log.debug('onrequest');
+    const {authorization} = req.headers;
+    app.log.info('decode token');
+    const decodeResult = auth.extractToken(authorization);
+    if (decodeResult[0]) {
+      resp.code(403);
+      done(decodeResult[0]);
+      return resp;
+    }
+    const token = decodeResult[1];
+    app.log.info('validate token');
+    return auth.validateToken(token).then(() => {
+      done();
+      return resp;
+    }).catch(() => {
+      resp.code(403);
+      done(new Error('unauthorized'));
+      return resp;
+    });
+  });
 
   app.post<{ Body: InsertSong }>(
     '/',
